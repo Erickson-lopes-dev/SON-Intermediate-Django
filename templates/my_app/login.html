@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %} Login {% endblock%}
+
+{% block content %}
+    <div class="container">
+        <h3>Login se usuário</h3>
+        <form action="POST">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" class="form-control" id="username" name="username"
+                       placeholder="Entre com o nome de seu usuário" >
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="text" class="form-control" id="password" name="password"
+                       placeholder="Entre com sua senha">
+            </div>
+                <button class="btn btn-primary">Login</button>
+        </form>
+    </div>
+{% endblock %}
