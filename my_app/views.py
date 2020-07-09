@@ -26,6 +26,10 @@ def login(request):
     # se caso esteja com informações inválida
     return render(request, 'my_app/login.html', {'message': message})
 
+    # # fazer algo quando o usuario estiver autenticado
+    # if request.user.is_authenticated():
+    # request.user.first_name
+
 
 @login_required(login_url='/login/')
 def home(request):
