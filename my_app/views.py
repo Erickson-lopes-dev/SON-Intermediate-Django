@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -26,10 +27,12 @@ def login(request):
     return render(request, 'my_app/login.html', {'message': message})
 
 
+@login_required(login_url='/login/')
 def home(request):
     return render(request, 'my_app/home.html')
 
 
+@login_required(login_url='/login/')
 def logout(request):
     # destroi a sessão
     django_logout(request)
