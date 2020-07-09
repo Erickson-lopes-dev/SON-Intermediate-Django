@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Adress
+from .models import Adress, STATES_CHOICES
 
 def login(request):
     if request.method == 'GET':
@@ -47,3 +47,20 @@ def logout(request):
 def address_list(request):
     addresses = Adress.objects.all()
     return render(request, 'my_app/address/list.html', {'addresses': addresses})
+
+
+@login_required(login_url='/login/')
+def address_create(request):
+    if request.method == 'GET':
+        state = STATES_CHOICES
+        return render(request, 'my_app/address/create.html', {'states': state})
+
+    Adress.objects.create(
+        address=request.POST.get('address'),
+        address_complement=request.POST.get('address_complement'),
+        city=request.POST.get('city'),
+        state=request.POST.get('state'),
+        country=request.POST.get('country'),
+        user=request.user
+    )
+    return redirect('/addresses/')
