@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from .models import Adress
 
 def login(request):
     if request.method == 'GET':
@@ -41,3 +41,9 @@ def logout(request):
     # destroi a sessão
     django_logout(request)
     return render(request, 'my_app/login.html')
+
+
+@login_required(login_url='/login/')
+def address_list(request):
+    addresses = Adress.objects.all()
+    return render(request, 'my_app/address/list.html', {'addresses': addresses})

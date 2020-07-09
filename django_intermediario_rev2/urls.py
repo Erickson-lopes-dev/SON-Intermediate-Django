@@ -24,4 +24,5 @@ urlpatterns = [
     path('', home),
     path('logout/', logout),
     path('home/', home),
+    path('addresses/', address_list),
 ]
