@@ -64,3 +64,22 @@ def address_create(request):
         user=request.user
     )
     return redirect('/addresses/')
+
+
+@login_required(login_url='/login/')
+def address_upate(request, id):
+    address = Adress.objects.get(id=id)
+    if request.method == 'GET':
+
+        state = STATES_CHOICES
+        return render(request, 'my_app/address/update.html', {'states': state, 'address': address})
+
+    address.address = request.POST.get('address')
+    address.address_complement = request.POST.get('address_complement')
+    address.city = request.POST.get('city')
+    address.state = request.POST.get('state')
+    address.country = request.POST.get('country')
+    # address.user = request.user
+
+    address.save()
+    return redirect('/addresses/')

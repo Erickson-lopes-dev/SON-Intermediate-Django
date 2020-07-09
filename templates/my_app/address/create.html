@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container">
         <h3>Novo endereço</h3>
-        <form action="" method="post">
+        <form action="/address/create" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="address">Endereço</label>

@@ -25,5 +25,6 @@ urlpatterns = [
     path('logout/', logout),
     path('home/', home),
     path('addresses/', address_list),
-    path('addresses/create', address_create),
+    path('addresses/<int:id>/update/', address_upate),
+    path('addresses/create/', address_create),
 ]

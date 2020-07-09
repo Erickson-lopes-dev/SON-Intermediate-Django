@@ -12,17 +12,22 @@
                 <th>Complemento</th>
                 <th>Cidade</th>
                 <th>Estado</th>
+                <th>Pais</th>
                 <th>Ações</th>
             </tr>
             <tbody>
                 {% for adress in addresses %}
                     <tr>
-                        <th>{{ adress.id }}</th>
-                        <th>{{ adress.address }}</th>
-                        <th>{{ adress.address_complement_normalized }}</th>
-                        <th>{{ adress.city }}</th>
-                        <th>{{ adress.state }}</th>
-                        <th>{{ adress.country }}</th>
+                        <td>{{ adress.id }}</td>
+                        <td>{{ adress.address }}</td>
+                        <td>{{ adress.address_complement_normalized }}</td>
+                        <td>{{ adress.city }}</td>
+                        <td>{{ adress.state }}</td>
+                        <td>{{ adress.country }}</td>
+                        <td>
+                            <a href="/addresses/{{ adress.id }}/update">Editar</a> |
+                            <a href="/addresses/{{ adress.id }}/delete">Delete</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
