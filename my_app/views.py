@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -70,7 +70,7 @@ def address_create(request):
                 country=form.cleaned_data['country'],
                 user=request.user
             )
-        return redirect('/addresses/')
+        return redirect(reverse('my_app:address_list'))
 
     return render(request, 'my_app/address/create.html', {'form': form, 'form_submitted': form_submitted})
 
@@ -82,17 +82,29 @@ def address_upate(request, id):
     if request.method == 'GET':
         # state = STATES_CHOICES
         form = AddressForm(address.__dict__)
+        form = AddressForm(instance=address)
     else:
         form_submitted = True
-        address.address = request.POST.get('address')
+        address.address = request.POST.get('address', instance=address)
         address.address_complement = request.POST.get('address_complement')
         address.city = request.POST.get('city')
         address.state = request.POST.get('state')
         address.country = request.POST.get('country')
 
         address.save()
-        return redirect('/addresses/')
+        return redirect(reverse('my_app:address_list'))
 
     return render(request, 'my_app/address/update.html', {'form': form,
                                                           'address': address,
                                                           'form_submitted': form_submitted})
+
+
+@login_required(login_url='/login/')
+def address_destroy(request, id):
+    address = Adress.object.get(id=id)
+    if request.method == 'GET':
+        form = AddressForm(instance=address)
+    else:
+        return render('my_app:address_list')
+
+    return render(request, 'my_app/address/update.html', {'form': form, 'address': address})
