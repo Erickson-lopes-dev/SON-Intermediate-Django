@@ -58,14 +58,16 @@ def address_create(request):
         form = AddressForm()
         return render(request, 'my_app/address/create.html', {'form': form})
 
-    Adress.objects.create(
-        address=request.POST.get('address'),
-        address_complement=request.POST.get('address_complement'),
-        city=request.POST.get('city'),
-        state=request.POST.get('state'),
-        country=request.POST.get('country'),
-        user=request.user
-    )
+    form = AddressForm(request.POST)
+    if form.is_valid():
+        Adress.objects.create(
+            address=form.cleaned_data['address'],
+            address_complement=form.cleaned_data['address_complement'],
+            city=form.cleaned_data['city'],
+            state=form.cleaned_data['state'],
+            country=form.cleaned_data['country'],
+            user=request.user
+        )
     return redirect('/addresses/')
 
 
@@ -73,7 +75,6 @@ def address_create(request):
 def address_upate(request, id):
     address = Adress.objects.get(id=id)
     if request.method == 'GET':
-
         state = STATES_CHOICES
         return render(request, 'my_app/address/update.html', {'states': state, 'address': address})
 

@@ -18,6 +18,6 @@ class AddressForm(forms.Form):
                               widget=forms.Select(attrs={'class': 'form-control'})
                               )
 
-    contry = forms.CharField(max_length=255,
-                             widget=forms.TextInput(attrs={'class': 'form-control'})
-                             )
+    country = forms.CharField(max_length=255,
+                              widget=forms.TextInput(attrs={'class': 'form-control'})
+                              )
