@@ -1,8 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 # Create your models here.
-# CRUD
 
 STATES_CHOICES = (
     ('AC', 'Acre'),
@@ -35,9 +34,9 @@ STATES_CHOICES = (
 )
 
 
-class Adress(models.Model):
+class Address(models.Model):
     address = models.CharField(max_length=255)
-    address_complement = models.CharField(max_length=255, blank=True, null=True)
+    address_complement = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255, choices=STATES_CHOICES)
     country = models.CharField(max_length=255)
