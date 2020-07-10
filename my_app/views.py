@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Adress, STATES_CHOICES
+from .forms import AddressForm
+
 
 def login(request):
     if request.method == 'GET':
@@ -52,8 +54,9 @@ def address_list(request):
 @login_required(login_url='/login/')
 def address_create(request):
     if request.method == 'GET':
-        state = STATES_CHOICES
-        return render(request, 'my_app/address/create.html', {'states': state})
+        # state = STATES_CHOICES
+        form = AddressForm()
+        return render(request, 'my_app/address/create.html', {'form': form})
 
     Adress.objects.create(
         address=request.POST.get('address'),
