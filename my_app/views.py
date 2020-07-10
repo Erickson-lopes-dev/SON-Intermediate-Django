@@ -53,37 +53,46 @@ def address_list(request):
 
 @login_required(login_url='/login/')
 def address_create(request):
+    form_submitted = False
     if request.method == 'GET':
         # state = STATES_CHOICES
         form = AddressForm()
-        return render(request, 'my_app/address/create.html', {'form': form})
 
-    form = AddressForm(request.POST)
-    if form.is_valid():
-        Adress.objects.create(
-            address=form.cleaned_data['address'],
-            address_complement=form.cleaned_data['address_complement'],
-            city=form.cleaned_data['city'],
-            state=form.cleaned_data['state'],
-            country=form.cleaned_data['country'],
-            user=request.user
-        )
-    return redirect('/addresses/')
+    else:
+        form_submitted = True
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            Adress.objects.create(
+                address=form.cleaned_data['address'],
+                address_complement=form.cleaned_data['address_complement'],
+                city=form.cleaned_data['city'],
+                state=form.cleaned_data['state'],
+                country=form.cleaned_data['country'],
+                user=request.user
+            )
+        return redirect('/addresses/')
+
+    return render(request, 'my_app/address/create.html', {'form': form, 'form_submitted': form_submitted})
 
 
 @login_required(login_url='/login/')
 def address_upate(request, id):
+    form_submitted = False
     address = Adress.objects.get(id=id)
     if request.method == 'GET':
-        state = STATES_CHOICES
-        return render(request, 'my_app/address/update.html', {'states': state, 'address': address})
+        # state = STATES_CHOICES
+        form = AddressForm(address.__dict__)
+    else:
+        form_submitted = True
+        address.address = request.POST.get('address')
+        address.address_complement = request.POST.get('address_complement')
+        address.city = request.POST.get('city')
+        address.state = request.POST.get('state')
+        address.country = request.POST.get('country')
 
-    address.address = request.POST.get('address')
-    address.address_complement = request.POST.get('address_complement')
-    address.city = request.POST.get('city')
-    address.state = request.POST.get('state')
-    address.country = request.POST.get('country')
-    # address.user = request.user
+        address.save()
+        return redirect('/addresses/')
 
-    address.save()
-    return redirect('/addresses/')
+    return render(request, 'my_app/address/update.html', {'form': form,
+                                                          'address': address,
+                                                          'form_submitted': form_submitted})
